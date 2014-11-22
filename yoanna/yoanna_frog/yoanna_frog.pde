@@ -5,24 +5,55 @@ Minim minim;
 AudioInput in;
 FFT fft;
 Mover frog;
-Mover bug1;
-Mover bug2;
+RandomMover bug1;
+RandomMover bug2;
+
+// 0 walcome
+// 1 playing
+// 2 congratulations
+int status=0;
+
+int beginFrame=0;
 
 void setup() {
   size(600, 600);
   imageMode(CENTER);
+//  frameRate(3 );
 
   minim=new Minim(this);
   in=minim.getLineIn();
   fft=new FFT(in.bufferSize(), in.sampleRate());
   frog=new Mover("frog.png");
-  bug1=new Mover("bug1.png");
-  bug2=new Mover("bug2.png");
+  frog.setPos(0, height);
+  bug1=new RandomMover("bug1.png");
+  bug2=new RandomMover("bug2.png");
 }
-
 void draw() {
   clear();
-  stroke(255);
+  if (status==0) {
+    draw0();
+  } else if (status==1) {
+    draw1();
+  } else if (status==2) {
+    draw2();
+  }
+}
+
+void keyReleased() {
+  if (status==0||status==2) {
+    status=1;
+    beginFrame=frameCount;
+  }
+}
+
+void draw0() {
+  textSize(100 );
+  text("Walcome!", 30, 250);
+  textSize(40);
+  text("press any key to play", 150, 400);
+}
+
+void draw1() {
   fft.forward(in.mix);
   long bandSum=0;
   long freqSum=0;
@@ -30,17 +61,40 @@ void draw() {
     bandSum+=fft.getBand(i)*8;
     freqSum+=fft.getFreq(i)*8;
     // draw the line for frequency band i, scaling it up a bit so we can see it
-    line( i, height, i, height - fft.getBand(i)*8 );
+    // line( i, height, i, height - fft.getBand(i)*8 );
   }
   float freq=map(freqSum/fft.specSize(), 100, 1000, 0, width);
   float band=height-map(bandSum/fft.specSize(), 0, 200, 0, height);
 
   frog.setPos(freq, band);
-  frog.draw();
 
-  rect(0, 0, band, 10);
-  rect(0, 0, 10, freq);
-  println(freqSum/fft.specSize());
-  ellipse(band, freq, 100, 100);
+  frog.draw();
+  bug1.draw();
+  bug2.draw();
+
+  //rect(0, 0, band, 10);
+  //rect(0, 0, 10, freq);
+  //println(freqSum/fft.specSize());
+  //ellipse(band, freq, 100, 100);
+
+  checkEat();
 }
 
+void draw2() {
+  textSize(60);
+  text("Congratulations!", 70, 250);
+  textSize(30);
+  text("press any key to play again", 150, 400);
+}
+
+void checkEat() {
+  if (frog.loc.dist(bug1.loc)<60) {
+    bug1.die();
+  }
+  if (frog.loc.dist(bug2.loc)<60) {
+    bug2.die();
+  }
+  if (!bug1.alive&&!bug2.alive) {
+    status=2;
+  }
+}
