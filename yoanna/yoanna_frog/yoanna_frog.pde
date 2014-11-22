@@ -42,13 +42,15 @@ void draw() {
 void keyReleased() {
   if (status==0||status==2) {
     status=1;
+    bug1.reset();
+    bug2.reset();
     beginFrame=frameCount;
   }
 }
 
 void draw0() {
   textSize(100 );
-  text("Walcome!", 30, 250);
+  text("Walcome!", 70, 250);
   textSize(40);
   text("press any key to play", 150, 400);
 }
