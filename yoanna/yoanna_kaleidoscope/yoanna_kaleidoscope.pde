@@ -1,4 +1,5 @@
-//<>// //<>// //<>// //<>// //<>// //<>// //<>//
+import processing.pdf.*; //<>//
+import java.util.*;
 
 int WIDTH=600, HEIGHT=600;
 final int r=20;
@@ -9,6 +10,9 @@ TYPE_SHAPE3='b',
 TYPE_SHAPE4='c', 
 TYPE_SHAPE5='d', 
 TYPE_SHAPE6='e';
+boolean savePDF = false;
+ArrayList<Character> types;
+ArrayList<Character> nums;
 
 char typeKey='a';
 char numberKey='1';
@@ -22,51 +26,49 @@ void setup() {
   background(255);
   ellipseMode(CENTER);
   smooth();
+  frameRate(3);
+
+  types=new ArrayList<Character>();
+  nums=new ArrayList<Character>();
 }
 
 void draw() {
+  if (savePDF) beginRecord(PDF, "pdf/####.pdf"); 
+  background(255);
+  for (int i=0; i<types.size (); i++) {
+    drawCircle(i, types.get(i), int(String.valueOf(nums.get(i))), 0);
+  }
+  if (savePDF) {
+    endRecord();
+    savePDF=false;
+  }
 }
 
 void keyReleased() {
   if (key=='a'||key=='b'||key=='c'||key=='d'||key=='e') {
     if (level==0) {
-      drawCircle(key, 0, 0);
-    } else {
-      typeKey=key;
-      typeIndex=1;
-      numberIndex=stepIndex=0;
+      types.add(key);
+      nums.add('0');
+      level++;
     }
+    typeKey=key;
   } else if (key=='1'||key=='2'||key=='3'||key=='4'||key=='5'
     ||key=='6'||key=='7'||key=='8'||key=='9'||key=='0') {
-    if (typeIndex==1) {
-      numberKey=key;
-      numberIndex=1;
-      typeIndex++;
-    } else if (numberIndex==1) {
-      stepKey=key;
-      stepIndex=1;
-      typeIndex++;
-      numberIndex++;
-    } else {
-      typeIndex=numberIndex=stepIndex=0;
-    }
-    if (numberIndex==1) {
-      drawCircle(typeKey, int(String.valueOf(numberKey)), int(String.valueOf(stepKey)));
-    }
-  } else {
+    types.add(typeKey);
+    nums.add(key);
+  } else if (key=='p') {
+    savePDF=true;
   }
 }
 
-void drawCircle(char type, int n, int noDraw) {
-  println("-----"+level);
-  println(type, n, noDraw);
-  int R=level*r;
+void drawCircle(int theLevel, char type, int n, int noDraw) {
+  int R=theLevel*r;
   noStroke();
   fill(random(255), random(255), random(255));
   pushMatrix();
   translate(width/2, height/2);
 
-  if (level==0) {
+  if (theLevel==0) {
     int rr=r;
     if (type==TYPE_SHAPE0) {
       ellipse(R, 0, rr, rr);
@@ -81,11 +83,11 @@ void drawCircle(char type, int n, int noDraw) {
     }
   } else {
     int rr=r;
-    for (int i=0; i<6*level; i++) {
+    for (int i=0; i<6*theLevel; i++) {
       if (n>0) {
         rr=int(r*pow(scala, n-abs(i%(2*n)-n)));
       }
-      rotate(TWO_PI/6/level);
+      rotate(TWO_PI/6/theLevel);
       println("rr:"+rr);
       println("R:"+R);
       println(degrees(TWO_PI/(TWO_PI*R/r)));
@@ -104,5 +106,4 @@ void drawCircle(char type, int n, int noDraw) {
     }
   }
   popMatrix();
-  level++;
 }
