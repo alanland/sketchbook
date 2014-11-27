@@ -1,8 +1,8 @@
 import processing.pdf.*; //<>//
 import java.util.*;
 
-int WIDTH=600, HEIGHT=600;
-final int r=20;
+int WIDTH=800, HEIGHT=800;
+final int r=50;
 int level=0;
 final float scala=0.8;
 final char TYPE_SHAPE0='a', 
@@ -13,6 +13,7 @@ TYPE_SHAPE6='e';
 boolean savePDF = false;
 ArrayList<Character> types;
 ArrayList<Character> nums;
+HashMap<Character,PImage> keyPngs;
 
 char typeKey='a';
 char numberKey='1';
@@ -28,8 +29,20 @@ void setup() {
   smooth();
   frameRate(3);
 
+  imageMode(CENTER);
+
   types=new ArrayList<Character>();
   nums=new ArrayList<Character>();
+  keyPngs=new HashMap();
+  keyPngs.put('a',loadImage("1.png"));
+  keyPngs.put('b',loadImage("2.png"));
+  keyPngs.put('c',loadImage("3.png"));
+  keyPngs.put('d',loadImage("4.png"));
+  keyPngs.put('e',loadImage("5.png"));
+  keyPngs.put('f',loadImage("6.png"));
+  keyPngs.put('g',loadImage("7.png"));
+  keyPngs.put('h',loadImage("8.png"));
+  keyPngs.put('i',loadImage("9.png"));
 }
 
 void draw() {
@@ -45,7 +58,7 @@ void draw() {
 }
 
 void keyReleased() {
-  if (key=='a'||key=='b'||key=='c'||key=='d'||key=='e') {
+  if (keyPngs.keySet().contains(key)){
     if (level==0) {
       types.add(key);
       nums.add('0');
@@ -70,39 +83,15 @@ void drawCircle(int theLevel, char type, int n, int noDraw) {
 
   if (theLevel==0) {
     int rr=r;
-    if (type==TYPE_SHAPE0) {
-      ellipse(R, 0, rr, rr);
-    } else if (type==TYPE_SHAPE3) {
-      drawShape(3, R, 0, rr*0.35, rr*0.5);
-    } else if (type==TYPE_SHAPE4) {
-      drawShape(4, R, 0, rr*0.35, rr*0.5);
-    } else if (type==TYPE_SHAPE5) {
-      drawShape(5, R, 0, rr*0.35, rr*0.5);
-    } else if (type==TYPE_SHAPE6) {
-      drawShape(6, R, 0, rr*0.35, rr*0.5);
-    }
-  } else {
+    image(keyPngs.get(type),R, 0, rr, rr);
+      } else {
     int rr=r;
     for (int i=0; i<6*theLevel; i++) {
       if (n>0) {
         rr=int(r*pow(scala, n-abs(i%(2*n)-n)));
       }
       rotate(TWO_PI/6/theLevel);
-      println("rr:"+rr);
-      println("R:"+R);
-      println(degrees(TWO_PI/(TWO_PI*R/r)));
-      println("type key:"+type);
-      if (type==TYPE_SHAPE0) {
-        ellipse(R, 0, rr, rr);
-      } else if (type==TYPE_SHAPE3) {
-        drawShape(3, R, 0, rr*0.35, rr*0.5);
-      } else if (type==TYPE_SHAPE4) {
-        drawShape(4, R, 0, rr*0.35, rr*0.5);
-      } else if (type==TYPE_SHAPE5) {
-        drawShape(5, R, 0, rr*0.35, rr*0.5);
-      } else if (type==TYPE_SHAPE6) {
-        drawShape(6, R, 0, rr*0.35, rr*0.5);
-      }
+      image(keyPngs.get(type),R, 0, rr, rr);
     }
   }
   popMatrix();
