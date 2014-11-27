@@ -9,16 +9,18 @@ RandomMover bug1;
 RandomMover bug2;
 
 // 0 walcome
-// 1 playing
+// 1 stage1
 // 2 congratulations
 int status=0;
+// 1,2,3,4
+int stage=1;
 
 int beginFrame=0;
 
 void setup() {
   size(600, 600);
   imageMode(CENTER);
-//  frameRate(3 );
+  //  frameRate(3 );
 
   minim=new Minim(this);
   in=minim.getLineIn();
@@ -42,9 +44,16 @@ void draw() {
 void keyReleased() {
   if (status==0||status==2) {
     status=1;
+    stage=1;
     bug1.reset();
+    bug1.die();
     bug2.reset();
+    bug2.speedRate=0.5;
     beginFrame=frameCount;
+  }
+  if (key=='s') {
+    bug1.die();
+    bug2.die();
   }
 }
 
@@ -97,6 +106,27 @@ void checkEat() {
     bug2.die();
   }
   if (!bug1.alive&&!bug2.alive) {
-    status=2;
+    if (stage==1) {
+      bug1.reset();
+      bug1.die();
+      bug2.reset();
+      bug2.speedRate=1.5;
+      stage++;
+    } else if (stage==2) {
+      bug1.reset();
+      bug1.speedRate=0.5;
+      bug2.reset();
+      bug2.speedRate=0.5;
+      stage++;
+    } else if (stage==3) {
+      bug1.reset();
+      bug1.speedRate=1.5;
+      bug2.reset();
+      bug2.speedRate=1.5;
+      stage++;
+    } else if (stage==4) {
+      stage=1;
+      status=2;
+    }
   }
 }

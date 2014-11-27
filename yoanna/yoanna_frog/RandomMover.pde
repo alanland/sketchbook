@@ -1,5 +1,6 @@
 class RandomMover extends Mover {
   boolean alive=true;
+  float speedRate=1;
 
   RandomMover(String img) {
     super(img);
@@ -8,10 +9,10 @@ class RandomMover extends Mover {
   }
 
   void update() {
-    acceleration.x=random(-1, 1)/2;
-    acceleration.y=random(-1, 1)/2;
+    acceleration.x=random(-1, 1)*speedRate;
+    acceleration.y=random(-1, 1)*speedRate;
     velocity.add(acceleration);
-    velocity.limit(5);
+    velocity.limit(5*speedRate);
     loc.add(velocity);
   }
 
@@ -45,6 +46,7 @@ class RandomMover extends Mover {
     alive=false;
   }
   void reset() {
+    speedRate=1;
     alive=true;
     loc.x=random(width);
     loc.y=random(height/3);
