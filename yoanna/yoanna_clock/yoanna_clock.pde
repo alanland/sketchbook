@@ -8,7 +8,7 @@ int f=0;
 void setup() {
   colorMode(HSB, 360, 360, 360);
   size(screenSize, screenSize);
-  frameRate(1);
+  frameRate(10);
   smooth();
   img=loadImage("background-"+screenSize+".jpg");
   //  img=loadImage("background.png");
@@ -17,7 +17,7 @@ void setup() {
 }
 
 void draw() {
-  f+=5;
+  f+=4;
   background(0, 0, 0);
   //  image(img, 0, 0);
   translate(width/2, height/2);
