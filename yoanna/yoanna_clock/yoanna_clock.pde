@@ -1,32 +1,38 @@
 
 int screenSize=600;
 
-int radiusHour=150, radiusMinute=250;
+int radiusHour=150, radiusMinute=200, radiusSecond=280;
 PImage img;
-int f=0;
+PImage backImg;
+int fsecond=0;
+int fminute=0;
+int fhour=0;
 
 void setup() {
+  tint(40);
   colorMode(HSB, 360, 360, 360);
   size(screenSize, screenSize);
-  frameRate(10);
+  frameRate(20);
   smooth();
   img=loadImage("background-"+screenSize+".jpg");
   //  img=loadImage("background.png");
   img.loadPixels();
+  backImg=loadImage("b-"+screenSize+".jpg");
   background(255);
 }
 
 void draw() {
-  f+=4;
-  background(0, 0, 0);
-  //  image(img, 0, 0);
+  fsecond+=4;
+  fminute+=2;
+  fhour+=1;
+  image(backImg, 0, 0);
   translate(width/2, height/2);
   //  rotate(-PI*0.5);
 
-
   // caculate angle of hour and minute
   float angleHour=map(hour()%12, 0, 12, -PI*0.5, PI*1.5);
-  float angleMinute=map(second(), 0, 60, -PI*0.5, PI*1.5);
+  float angleMinute=map(minute(), 0, 60, -PI*0.5, PI*1.5);
+  float angleSecond=map(second(), 0, 60, -PI*0.5, PI*1.5);
 
   //  println(degrees(angleMinute));
   loadPixels();
@@ -36,49 +42,60 @@ void draw() {
       int loc=(y+height/2)*width + x+width/2;
       // distance of current pixel
       float dist=dist(0, 0, x, y);
-      if (dist<radiusMinute) {  // big circle
+      if (dist<radiusSecond) {
         float h, s, b;
         float angle=atan2(y, x);
         if (angle<-PI/2) {
           angle+=TWO_PI;
         }
-        if (angle<angleMinute) {
-          //if (needDrawMinute(angle, angleMinute)) {
-          // 0-11
-          if (hour()<12) {
-            h=hue(img.pixels[loc]);
-            s=saturation(img.pixels[loc]);
-            b=brightness(img.pixels[loc]);
-            h=(degrees(angleBetween(angle, angleMinute)/2))%360;
-            h=(h+f)%360;
-            pixels[loc]=color(h, s, b-100);
-          } else {
-            h=(hue(img.pixels[loc]))%360;
-            h=(h+f)%360;
-            s=saturation(img.pixels[loc]);
-            b=brightness(img.pixels[loc]);
-            pixels[loc]=color(h, s, b-100);
-          }
+        if (angle<angleSecond) {
+          h=hue(img.pixels[loc]);
+          s=saturation(img.pixels[loc]);
+          b=brightness(img.pixels[loc]);
+          h=(degrees(angleBetween(angle, angleMinute)/2))%360;
+          h=(h+fsecond)%360;
+          pixels[loc]=color(h, s, b-150);
         }
-        if (dist<radiusHour) {
-          if (angle<angleHour) {
+        if (dist<radiusMinute) {  // minute
+          if (angle<angleMinute) {
+            //if (needDrawMinute(angle, angleMinute)) {
+            // 0-11
             if (hour()<12) {
               h=hue(img.pixels[loc]);
               s=saturation(img.pixels[loc]);
               b=brightness(img.pixels[loc]);
-              h=(h+f)%360;
-              pixels[loc]=img.pixels[loc];
+              h=(degrees(angleBetween(angle, angleMinute)/2))%360;
+              h=(h+fminute)%360;
+              pixels[loc]=color(h, s, b-100);
             } else {
-              h=hue(img.pixels[loc]);
+              h=(hue(img.pixels[loc]))%360;
+              h=(h+fminute)%360;
               s=saturation(img.pixels[loc]);
               b=brightness(img.pixels[loc]);
-              h=(degrees(angleBetween(angle, angleHour))/2)%360;
-              h=(h+f)%360;
-              pixels[loc]=color(h, s, b);
+              pixels[loc]=color(h, s, b-70);
             }
           }
-        }
-      } else {
+          if (dist<radiusHour) {
+            if (angle<angleHour) {
+              if (hour()<12) {
+                h=hue(img.pixels[loc]);
+                s=saturation(img.pixels[loc]);
+                b=brightness(img.pixels[loc]);
+                h=(h+fhour)%360;
+                pixels[loc]=img.pixels[loc];
+              } else {
+                h=hue(img.pixels[loc]);
+                s=saturation(img.pixels[loc]);
+                b=brightness(img.pixels[loc]);
+                h=(degrees(angleBetween(angle, angleHour))/2)%360;
+                h=(h+fhour)%360;
+                pixels[loc]=color(h, s, b);
+              }
+            }
+          }// end hour
+        }// end minute
+      }// end second
+      else {
         //        pixels[loc]=img.get(x+width/2, y+height/2);
       }
     }
