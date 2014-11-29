@@ -4,10 +4,12 @@ import point2line.*;
 int WIDTH=800;
 int HEIGHT=600;
 
+int padding=10;
 int mousePressedX=0, mousePressedY=0;
 ArrayList<Circles> circlesList;
 
 void setup() {
+  frameRate(20);
   size(WIDTH, HEIGHT);
   reset();
 }
@@ -15,9 +17,6 @@ void setup() {
 void reset() {
   circlesList=new ArrayList();
   background(255);
-  for (int i=0; i<20; i++) {
-    circlesList.add(new Circles(random(10, width-10), random(10, height-10)));
-  }
 }
 
 void draw() {
@@ -36,9 +35,17 @@ void draw() {
   }
 }
 
+void keyPressed() {
+  if (key=='1') {
+    circlesList.add(new Circles(random(padding, width-padding), 0));
+  }
+}
+
 void keyReleased () {
   if (key=='c') {
     reset();
+  } else if (key=='j') {
+    saveFrame("images/####.jpg");
   }
 }
 
@@ -46,6 +53,7 @@ void mousePressed() {
   mousePressedX=mouseX;
   mousePressedY=mouseY;
 }
+
 void mouseReleased() {
   for (Circles cs : circlesList) {
     if (interected(mouseX, mouseY, mousePressedX, mousePressedY, cs)) {

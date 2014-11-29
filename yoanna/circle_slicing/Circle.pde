@@ -2,13 +2,14 @@ class Circle {
   PVector loc;
   int r;
   int c;// color
-  int weight=18;
+  float weight;
   boolean sliced=false;
   PVector slicingLoc;
   float slicingAngle;
-  Circle(float x, float y, int r1, int c1) {
+  Circle(float x, float y, int r1, int c1, float weight) {
     loc = new PVector(x, y);
     r = r1;
+    this.weight=weight;
     c=c1;
     sliced=false;
     slicingLoc = new PVector(-1, -1);
@@ -16,11 +17,15 @@ class Circle {
 
   void slice() {
     sliced=true;
-    slicingLoc = new PVector(random(loc.x-r, loc.x+r), random(loc.y-r, loc.y+r));
+    slicingLoc = new PVector(random(loc.x-weight, loc.x+weight), random(loc.y-weight, loc.y+weight));
     slicingAngle = random(TWO_PI);
   }
 
-  void draw() {
+  void update() {
+    loc.y++;
+  }
+
+  void display() {
     fill(c);
     if (sliced) {
       strokeWeight(weight);
@@ -33,5 +38,10 @@ class Circle {
     } else {
       ellipse(loc.x, loc.y, r, r);
     }
+  }
+
+  void draw() {
+    update();
+    display();
   }
 }
