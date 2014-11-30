@@ -1,15 +1,20 @@
 import point2line.*;
 
-
 int WIDTH=800;
 int HEIGHT=600;
+int FRAME_RATE=24;
+int CREATE_SPEED=18;
+
 
 int padding=10;
 int mousePressedX=0, mousePressedY=0;
 ArrayList<Circles> circlesList;
+int mode=60;
+boolean stoped=false;
 
 void setup() {
-  frameRate(20);
+  colorMode(HSB, 360, 100, 100);
+  frameRate(FRAME_RATE);
   size(WIDTH, HEIGHT);
   reset();
 }
@@ -20,8 +25,11 @@ void reset() {
 }
 
 void draw() {
-  background(255);
+  background(255, 0, 100);
   noStroke();
+  if (!stoped && frameCount%CREATE_SPEED==0) {
+    circlesList.add(new Circles(random(padding, width-padding), 0));
+  }
   for (Circles circles : circlesList) {
     if (circles.sliced)circles.draw();
   }
@@ -36,15 +44,19 @@ void draw() {
 }
 
 void keyPressed() {
-  if (key=='1') {
-    circlesList.add(new Circles(random(padding, width-padding), 0));
-  }
+  HashMap<Character, Integer> map=new HashMap();
+  map.put('1', 60);
+  map.put('2', 90);
+  if (map.containsKey(key))
+    mode = map.get(key);
+  if (key==ENTER)
+    stoped=true;
 }
 
 void keyReleased () {
   if (key=='c') {
     reset();
-  } else if (key=='j') {
+  } else if (key=='0') {
     saveFrame("images/####.jpg");
   }
 }

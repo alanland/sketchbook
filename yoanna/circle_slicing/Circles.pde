@@ -5,15 +5,20 @@ class Circles {
   HashMap points;
   boolean sliced=false;
   ArrayList<Circle> circleList;
+  float speed=2.5;
 
   Circles(float x, float y) {
     loc=new PVector(x, y);
     circleList=new ArrayList<Circle>();
-    int allWeight=0;
+    int allWeight=0;    
+    int h=int(random(360));
     for (int i=count; i>0; i--) {
       float weight=random(10, 30);
       allWeight+=weight*2;
-      circleList.add(new Circle(x, y, allWeight, color(random(255), random(255), random(255)), weight));
+      int c=color(h+random(mode), random(40, 100), random(40, 100));
+      Circle cc=new Circle(x, y, allWeight, c, weight);
+      cc.speed=speed;
+      circleList.add(cc);
     }
   }
 
@@ -26,7 +31,7 @@ class Circles {
   }
 
   void update() {
-    loc.y++;
+    loc.y+=speed;
   }
 
   void display() {

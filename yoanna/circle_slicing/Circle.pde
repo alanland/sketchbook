@@ -6,6 +6,7 @@ class Circle {
   boolean sliced=false;
   PVector slicingLoc;
   float slicingAngle;
+  float speed;
   Circle(float x, float y, int r1, int c1, float weight) {
     loc = new PVector(x, y);
     r = r1;
@@ -17,12 +18,12 @@ class Circle {
 
   void slice() {
     sliced=true;
-    slicingLoc = new PVector(random(loc.x-weight, loc.x+weight), random(loc.y-weight, loc.y+weight));
+    slicingLoc = new PVector(random(loc.x-r, loc.x+r), random(loc.y-r, loc.y+r));
     slicingAngle = random(TWO_PI);
   }
 
   void update() {
-    loc.y++;
+    loc.y+=speed;
   }
 
   void display() {
