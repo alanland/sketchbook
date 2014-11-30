@@ -25,17 +25,22 @@ int paddingh=3;
 int paddingh2=20;
 
 long lastPressed=0;
+char lastKey=0;
+boolean drawing=false;
 HashSet<Character> keys;
 
 HashMap<Integer, Integer> smap;
 HashMap<Integer, Integer> bmap;
 
 Seed s;
+ArrayList<Seed> seedList;
 void setup() {
   colorMode(HSB, 700, 100, 100);
   //  frameRate(1);
   size(WIDTH, HEIGHT);
   //  background(0,0,100);
+
+  seedList=new ArrayList();
 
   keys=new HashSet();
 
@@ -143,8 +148,34 @@ void gui() {
             ;
 }
 
+color getColor(int i) {
+  if (i==1) {
+    if (s1<0)
+      return color(s1+700, 100, b1);
+    else
+      return color(s1, 100, b1);
+  } else if (i==2) {
+    return color(s2+100, 100, b1);
+  } else if (i==3) {
+    return color(s3+200, 100, b1);
+  } else if (i==4) {
+    return color(s4+300, 100, b1);
+  } else if (i==5) {
+    return color(s5+400, 100, b1);
+  } else if (i==6) {
+    return color(s6+500, 100, b1);
+  } else if (i==7) {
+    return color(s7+600, 100, b1);
+  } else {
+    return 0;
+  }
+}
+
 void drawGui() {
-  fill(s1, 100, b1);
+  if (s1<0)
+    fill(s1+700, 100, b1);
+  else
+    fill(s1, 100, b1);
   rect(beginx+w+20, beginy+(h*2+paddingh+paddingh2)*0, h*2+paddingh, h*2+paddingh);
   fill(s2+100, 100, b2);
   rect(beginx+w+20, beginy+(h*2+paddingh+paddingh2)*1, h*2+paddingh, h*2+paddingh);
@@ -162,17 +193,27 @@ void drawGui() {
 
 void draw() {
   drawGui();
-  //  s.draw();
-  //  println(keys);
+
+  if (keyPressed && lastKey==key)s.draw();
+  if (keyPressed)println(key);
 }
 
 void keyPressed() {
-  keys.add(key);
+  if (lastKey==key) {
+    drawing=true;
+  } else {
+    drawing=false;
+  }
   long cur=millis();
   if (cur-lastPressed>300) {
     lastPressed=cur;
     splitColor();
   }
+  if (key==lastKey) {
+    // 按着不放
+  }
+  println(key, keyPressed);
+  lastKey=key;
 }
 
 void keyReleased() {
@@ -184,4 +225,11 @@ void splitColor() {
   //  println("sssssssssss");
   for (char c : keys) {
   }
+}
+
+protected void keyDown(KeyEvent e) {
+  println(e);
+}
+protected void processKeyEvent(KeyEvent e) {
+  println(e);
 }
