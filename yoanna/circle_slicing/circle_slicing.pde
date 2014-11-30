@@ -1,10 +1,7 @@
 import point2line.*;
 
-int WIDTH=800;
-int HEIGHT=600;
 int FRAME_RATE=24;
 int CREATE_SPEED=18;
-
 
 int padding=10;
 int mousePressedX=0, mousePressedY=0;
@@ -15,7 +12,7 @@ boolean stoped=false;
 void setup() {
   colorMode(HSB, 360, 100, 100);
   frameRate(FRAME_RATE);
-  size(WIDTH, HEIGHT);
+  size(getW(), getH());
   reset();
 }
 
@@ -80,4 +77,11 @@ boolean interected(float x1, float y1, float x2, float y2, Circles circles) {
   Vect2 center = new Vect2(circles.loc.x, circles.loc.y);
   Vect2 p = Space2.closestPointOnLine( center, p1, p2);
   return dist(center.x, center.y, p.x, p.y)<circles.r*circles.count/2 && p.x>min(x1, x2) && p.x<max(x1, x2) && p.y>min(y1, y2) && p.y<max(y1, y2);
+}
+
+int getH() {
+  return displayHeight;
+}
+int getW() {
+  return displayWidth;
 }
