@@ -1,7 +1,7 @@
 import processing.video.*;
 
-Movie mov;
-int w=480, h=204;
+Movie mov, mov1, mov2;
+int w=int(1024*0.8), h=768;
 int barWidth = 50, barSpace=20;
 float colors[];
 int colorCount=w*h;
@@ -15,13 +15,18 @@ long greensum;
 long bluesum;
 long brigthsum;
 long saturationsum;
+float movWidth = 1024*0.8;
+float movHeight = 768*0.8;
 
 void setup() {
-  size(w, h*3);
+  size(w, h);
   background(0);
   ellipseMode(CORNER);
-  mov=new Movie(this, "sintel.mp4");
-  mov.loop();
+  mov1=new Movie(this, "blue1.ifox");
+  mov2=new Movie(this, "blue2.ifox");
+  mov=mov1;
+  mov.play();
+
   colors = new float[colorCount];
   reds = new float[colorCount];
   greens = new float[colorCount];
@@ -32,10 +37,14 @@ void setup() {
 
 void draw() {
   noStroke();
-  fill(30, 30);
+  fill(0, 50);
   rect(0, 0, width, height);
 
-  if (mov.available() == true) {
+  if (mov.time()>=mov.duration()-0.3) {
+    mov=mov2;
+    mov.play();
+  }
+  if (mov.available()) {
     mov.read();
     mov.loadPixels();
     int count = 0;
@@ -71,27 +80,29 @@ void draw() {
   }
 
 
-  image(mov, 0, 0);
-  translate(0, h);
-  fill(255, 0, 0, 50);
-  drawBar(0, 0, int(redsum/colorCount));
-
-  fill(0, 255, 0, 50);
-  drawBar(barWidth+barSpace, 0, int(greensum/colorCount));
-
-  fill(0, 0, 255, 50);
-  drawBar((barWidth+barSpace)*2, 0, int(bluesum/colorCount));
-
-  drawBar((barWidth+barSpace)*3, 0, int(brigthsum/colorCount));
-  drawBar((barWidth+barSpace)*4, 0, int(saturationsum/colorCount));
+  image(mov, 0, 0, movWidth, movHeight);
+  drawBars(int(redsum/colorCount), int(greensum/colorCount), int(bluesum/colorCount), int(brigthsum/colorCount), int(saturationsum/colorCount));
 }
 
-void drawBar(int beginX, int beginY, int barHeight) {
-  int r=20;
-  int count = barHeight/r;
-  for (int n=0; n<3; n++) {
-    for (int i=0; i<count+random(3); i++) {
-      ellipse(beginX+n*r, beginY+r*i, r, r);
+void drawBars(int red, int green, int blue, int b, int s) {
+  if (red>255||green>255||blue>255||b>255||s>255)
+    println(red, green, blue, b, s);
+  colorMode(HSB, width, 255, 255);
+  strokeWeight(3);
+  for (int i=0; i<width; i+=5) {
+    float angle = map(i, 0, width, 0, PI*5);
+    stroke(i, 255, 255);
+    if (angle<PI) {
+      line(i, height, i, height-sin(angle)*map(red, 0, 255, 0, (height-movHeight)));
+    } else if (angle <PI*2) {
+      line(i, height, i, height+sin(angle)*map(blue, 0, 255, 0, (height-movHeight)));
+    } else if (angle <PI*3) {
+      line(i, height, i, height-sin(angle)*map(green, 0, 255, 0, (height-movHeight)));
+    } else if (angle <PI*4) {
+      line(i, height, i, height+sin(angle)*map(b, 0, 255, 0, (height-movHeight)));
+    } else if (angle <PI*5) {
+      line(i, height, i, height-sin(angle)*map(s, 0, 255, 0, (height-movHeight)));
     }
   }
+  colorMode(RGB, 255, 255, 255);
 }

@@ -1,3 +1,4 @@
+// 虫子类
 class RandomMover extends Mover {
   boolean alive=true;
   float speedRate=1;

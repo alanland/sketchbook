@@ -1,3 +1,4 @@
+// 青蛙类
 class Mover {
   PImage img;
   PVector loc;
