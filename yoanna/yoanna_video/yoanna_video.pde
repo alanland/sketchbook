@@ -1,7 +1,7 @@
 import processing.video.*;
 
 Movie mov, mov1, mov2;
-int w=int(1024*0.8), h=768;
+int w=int(1024*0.6), h=768;
 int barWidth = 50, barSpace=20;
 float colors[];
 int colorCount=w*h;
@@ -15,8 +15,8 @@ long greensum;
 long bluesum;
 long brigthsum;
 long saturationsum;
-float movWidth = 1024*0.8;
-float movHeight = 768*0.8;
+float movWidth = 1024*0.6;
+float movHeight = 768*0.6;
 
 void setup() {
   size(w, h);
@@ -39,6 +39,14 @@ void draw() {
   noStroke();
   fill(0, 50);
   rect(0, 0, width, height);
+  textSize(18);
+  fill(160);
+  float texty = 768*0.7;
+  text("RED", 20, texty+20);
+  text("GREEN", 20+width/5, texty+20);
+  text("BLUE", 20+width/5*2, texty+20);
+  text("BRIGHT", 20+width/5*3, texty+20);
+  text("SATURATION", 10+width/5*4, texty+20);
 
   if (mov.time()>=mov.duration()-0.3) {
     mov=mov2;
@@ -95,9 +103,9 @@ void drawBars(int red, int green, int blue, int b, int s) {
     if (angle<PI) {
       line(i, height, i, height-sin(angle)*map(red, 0, 255, 0, (height-movHeight)));
     } else if (angle <PI*2) {
-      line(i, height, i, height+sin(angle)*map(blue, 0, 255, 0, (height-movHeight)));
+      line(i, height, i, height+sin(angle)*map(green, 0, 255, 0, (height-movHeight)));
     } else if (angle <PI*3) {
-      line(i, height, i, height-sin(angle)*map(green, 0, 255, 0, (height-movHeight)));
+      line(i, height, i, height-sin(angle)*map(blue, 0, 255, 0, (height-movHeight)));
     } else if (angle <PI*4) {
       line(i, height, i, height+sin(angle)*map(b, 0, 255, 0, (height-movHeight)));
     } else if (angle <PI*5) {
