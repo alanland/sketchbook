@@ -1,9 +1,14 @@
 
-from CheckersBoard import CheckersBoard,Block,Player
-
+from board import CheckersBoard
+from block import Block
+from player import Player
+from game import Game
+from ctrl import *
 
 p1 = Player(True,loadImage('a1.png'),loadImage('a2.png'))
 p2 = Player(False,loadImage('b1.png'),loadImage('b2.png'))
+
+
 
 def setup():
     size(600, 700)
@@ -12,10 +17,13 @@ def setup():
     textMode(CENTER)
     global board
     board = CheckersBoard(8, p1, p2)
+    game = Game(board)
+    setGame(game)
+    
+    
     
 def draw():
     clear()   
-    text(str(mouseX)+'    '+str(mouseY),10,10)
     board.display()
 
 
