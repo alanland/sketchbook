@@ -9,8 +9,8 @@ class Block:
     def __init__(self, row, col, c, size, player=None):
         self.row = row
         self.col = col
-        self.x = row * size
-        self.y = col * size
+        self.x = col * size
+        self.y = row * size
         self.c = c
         self.size = size
         if not c:
