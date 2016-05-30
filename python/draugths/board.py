@@ -33,10 +33,10 @@ class CheckersBoard:
             for col in range(self.size):
                 player = None
                 if row in [0, 1, 2]:
-                    player = p1
+                    player = p1.clone()
                     print 1,
                 elif row in [5, 6, 7]:
-                    player = p2
+                    player = p2.clone()
                     print 1,
                 else:
                     player = None

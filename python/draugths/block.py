@@ -52,7 +52,29 @@ class Block:
                 row = -1
 
             if self.player.king:
-                # todo
+                if abs(target.row - self.row) == 1 and abs(target.col - self.col) == 1: # move
+                    target.player = self.player
+                    self.player = None
+                    self.diselect()
+                    target.checkKing()
+                    return 1
+                if abs(target.row - self.row) == 2 and abs(target.col - self.col) == 2: # eat
+                    mid = getBlockBetween(self, target)
+                    debugBoard()
+                    print 'size 2'
+                    print 'self: ', self
+                    print 'mid : ', mid
+                    print 'tgt : ', target
+                    print mid.player.first
+                    if mid.player and mid.player.first != self.player.first:  # can eat
+                        print 'can eat'
+                        mid.player = None
+                        target.player = self.player
+                        self.player = None
+                        self.diselect()
+                        target.checkKing()
+                        # todo continus eat
+                        return 2
                 pass
             else:
                 print 'not king'
@@ -61,6 +83,7 @@ class Block:
                     target.player = self.player
                     self.player = None
                     self.diselect()
+                    target.checkKing()
                     return 1
                 if target.row == self.row + row * 2 and abs(target.col - self.col) == 2:  # eat
                     mid = getBlockBetween(self, target)
@@ -76,6 +99,7 @@ class Block:
                         target.player = self.player
                         self.player = None
                         self.diselect()
+                        target.checkKing()
                         # todo continus eat
                         return 2
         return 0
@@ -86,3 +110,11 @@ class Block:
         else:
             p = '-'
         return 'row %s, col %s, player %s' % (self.row, self.col, p)
+
+    def checkKing(self):
+        if self.player.first:
+            if self.row == 7:
+                self.player.king = 1
+        else:
+            if self.row == 0:
+                self.player.king = 1

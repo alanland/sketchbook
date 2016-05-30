@@ -5,9 +5,9 @@ class Player:
         self.img2 = img2
         self.king = 0
         if self.first:
-            self.name='A'
+            self.name = 'A'
         else:
-            self.name='B'
+            self.name = 'B'
 
     def display(self, x, y, size):
         if self.king:
@@ -16,4 +16,10 @@ class Player:
             image(self.img1, x, y, size, size)
 
     def __repr__(self):
-        return 'player '+self.name
+        return 'player ' + self.name
+
+    def __eq__(self, other):
+        return self.name == other.name
+
+    def clone(self):
+        return Player(self.first, self.img1, self.img2)
