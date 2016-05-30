@@ -94,6 +94,9 @@ class CheckersBoard:
                     # others
 
                     # return
+                elif res == 2:
+                    self.selected = None
+                    self.changePlayer()
 
         elif target.player:  # select
             print 'choose'
@@ -103,6 +106,7 @@ class CheckersBoard:
     def display(self):
         with pushMatrix():
             translate(self.x1, self.y1)
+            text(self.player.name,-100, 20)
             for i in range(self.size):
                 for j in range(self.size):
                     self.matrix[i][j].display()

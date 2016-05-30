@@ -23,23 +23,25 @@ def getBlock(row, col):
 
 
 def getBlockBetween(b1, b2):
-    row2 = int(b1.row+1 + b1.row+1)/2
-    col2 = int(b1.col + b2.col)/2
-    print 'mid row:', row2
-    print 'mid col:', col2
+    row2 = min(b1.row, b2.row) + 1
+    col2 = min(b1.col, b2.col) + 1
+    print 'get mid: %s%s,%s%s = %s%s:' % (b1.row, b1.col, b2.row, b2.col, row2, col2)
     return getBlock(row2, col2)
+
 
 def debugBoard():
     global game
+    print random(1)
     m = game.board.matrix
     for row in range(8):
         for col in range(8):
             if m[row][col].player:
-                print 1,
+                if m[row][col].player.first:
+                    print 'A',
+                else:
+                    print 'B',
             else:
-                print 0,
+                print ' ',
         print
     print
     print
-
-

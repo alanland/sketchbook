@@ -66,8 +66,9 @@ class Block:
                     mid = getBlockBetween(self, target)
                     debugBoard()
                     print 'size 2'
-                    print mid.player
-                    print self.player.first
+                    print 'self: ', self
+                    print 'mid : ', mid
+                    print 'tgt : ', target
                     print mid.player.first
                     if mid.player and mid.player.first != self.player.first:  # can eat
                         print 'can eat'
@@ -78,3 +79,10 @@ class Block:
                         # todo continus eat
                         return 2
         return 0
+
+    def __repr__(self):
+        if self.player:
+            p = self.player.name
+        else:
+            p = '-'
+        return 'row %s, col %s, player %s' % (self.row, self.col, p)
