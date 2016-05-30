@@ -6,11 +6,11 @@ class Block:
     ColorB = color(204, 102, 0)
     ColorSelected = color(0, 0, 255)
 
-    def __init__(self, x, y, c, size, player=None):
-        self.col = x
-        self.row = y
-        self.x = x * size
-        self.y = y * size
+    def __init__(self, row, col, c, size, player=None):
+        self.row = row
+        self.col = col
+        self.x = row * size
+        self.y = col * size
         self.c = c
         self.size = size
         if not c:
@@ -64,6 +64,7 @@ class Block:
                     return 1
                 if target.row == self.row + row * 2 and abs(target.col - self.col) == 2:  # eat
                     mid = getBlockBetween(self, target)
+                    debugBoard()
                     print 'size 2'
                     print mid.player
                     print self.player.first

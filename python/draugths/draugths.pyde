@@ -23,7 +23,6 @@ def setup():
 
     
     
-    
 def draw():
     clear()   
     board.display()

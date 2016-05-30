@@ -29,18 +29,17 @@ class CheckersBoard:
         def changeStatus():
             self.status = not self.status
 
-        for i in range(self.size):
-            for j in range(self.size):
+        for row in range(self.size):
+            for col in range(self.size):
                 player = None
-                if j in [0, 1, 2]:
+                if col in [0, 1, 2]:
                     player = p1
-                elif j in [5, 6, 7]:
+                elif col in [5, 6, 7]:
                     player = p2
                 else:
                     player = None
 
-                self.matrix[i][j] = Block(
-                    i, j, self.status, self.blockSize, player)
+                self.matrix[row][col] = Block(row, col, self.status, self.blockSize, player)
                 changeStatus()
             changeStatus()
 
@@ -60,6 +59,7 @@ class CheckersBoard:
             return None
 
     def mousePressed(self):
+        debugBoard()
         if not self.mouseInBoard():
             return
         target = self.getMouseBlock()
