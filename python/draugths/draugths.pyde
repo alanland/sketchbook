@@ -18,7 +18,9 @@ def setup():
     global board
     board = CheckersBoard(8, p1, p2)
     game = Game(board)
+    setBoard(board)
     setGame(game)
+
     
     
     

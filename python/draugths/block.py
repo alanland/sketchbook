@@ -1,3 +1,6 @@
+from ctrl import *
+
+
 class Block:
     ColorA = color(102, 204, 0)  # hold chees
     ColorB = color(204, 102, 0)
@@ -42,18 +45,35 @@ class Block:
         :param target:
         :return:
         """
+        print 'try move: ', self.row, self.col, target.row, target.col
         if self.player:
             row = 1
-            if not self.player.first:
+            if not self.player.first:  # player 1 or 2
                 row = -1
+
             if self.player.king:
                 # todo
                 pass
             else:
-                if target.row == self.row + row and abs(target.col - self.col) == 1:
+                print 'not king'
+                if target.row == self.row + row and abs(target.col - self.col) == 1:  # move
+                    print 'size 1'
                     target.player = self.player
                     self.player = None
                     self.diselect()
                     return 1
+                if target.row == self.row + row * 2 and abs(target.col - self.col) == 2:  # eat
+                    mid = getBlockBetween(self, target)
+                    print 'size 2'
+                    print mid.player
+                    print self.player.first
+                    print mid.player.first
+                    if mid.player and mid.player.first != self.player.first:  # can eat
+                        print 'can eat'
+                        mid.player = None
+                        target.player = self.player
+                        self.player = None
+                        self.diselect()
+                        # todo continus eat
+                        return 2
         return 0
-

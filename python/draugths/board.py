@@ -60,7 +60,6 @@ class CheckersBoard:
             return None
 
     def mousePressed(self):
-        print getGame()
         if not self.mouseInBoard():
             return
         target = self.getMouseBlock()
@@ -79,7 +78,7 @@ class CheckersBoard:
                 target.select()
             else:  # move
                 res = self.selected.movePlayerTo(target)
-                if res: # move success
+                if res == 1:  # move success
                     self.selected = None
                     self.changePlayer()
                     #                 block.player = self.selected.player
