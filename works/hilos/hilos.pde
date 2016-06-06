@@ -66,11 +66,12 @@ int DEFAULTAPPLICHEIGHT = 600;
 //------------------------------------------------------------------------------
 
 // The text to be written
-String STRNG = "Srings";
+String STRNG = "喵";
 
 // The font to be used
 //String FONT = "LidoSTF.ttf";
 String FONT = "darkcrystaloutline.ttf";
+//String FONT = "msyh.ttf";
 
 // The inertie of the particles
 float INERTIE[] = {
@@ -138,11 +139,15 @@ void setup() {
   background(0);
 
   f = new RFont(FONT, 372, RFont.CENTER);
+  
+  printArray(PFont.list());
+  PFont ff = createFont("oxeee", 24);
 
   initialize();
 }
 
 void draw() {
+  
   translate(width/2, height/2);
   noStroke();
   fill(0, backalpha);
@@ -161,7 +166,7 @@ void draw() {
   TARGET[1] = TARGET[0]+ 0.5*float(constrain(mouseY, 1, height))/float(height);
   t++;
 
-  if (SAVEVIDEO) saveFrame("hilos-####.tga");
+  if (SAVEVIDEO) saveFrame("frames/####.tga");
   toldist += 0.009;
 }
 
@@ -278,4 +283,3 @@ public class Particle {
     line(lastpos.x, lastpos.y, pos.x, pos.y);
   }
 }
-

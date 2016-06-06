@@ -8,7 +8,7 @@ class CheckersBoard:
         self.size = size
         self.p1 = p1
         self.p2 = p2
-        self.paddingLeft = 100
+        self.paddingLeft = 200
         self.paddingRight = 40
         self.paddingTop = 100
         self.x1 = self.paddingLeft
@@ -86,10 +86,6 @@ class CheckersBoard:
                 if res == 1:  # move success
                     self.selected = None
                     self.changePlayer()
-                    #                 block.player = self.selected.player
-                    #                 self.selected.player = None
-                    #                 self.selected.diselect()
-                    #                 self.selected = None
 
                     # others
 
@@ -110,3 +106,5 @@ class CheckersBoard:
             for i in range(self.size):
                 for j in range(self.size):
                     self.matrix[i][j].display()
+
+
