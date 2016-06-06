@@ -49,6 +49,7 @@ class CheckersBoard:
             changeStatus()
 
     def changePlayer(self):
+        print '%s >>>>>>> ' % self.player
         if self.player == self.p1:
             self.player = self.p2
         else:
@@ -102,7 +103,7 @@ class CheckersBoard:
                     self.changePlayer()
 
         elif target.player:  # select
-            print 'choose'
+            # print 'choose'
             self.selected = target
             target.select()  #
 
@@ -117,7 +118,7 @@ class CheckersBoard:
     def checkCanEat(self):
         canEat = self.canEatByPlayer(self.player)
         if canEat:
-            print 'current: %s ' % self.player
+            # print 'current: %s ' % self.player
             self.needChange = 1
             res = canEat[0].movePlayerTo(canEat[2])
             print 'eat result: %s' % res
@@ -129,9 +130,10 @@ class CheckersBoard:
         for i in range(self.size):
             for j in range(self.size):
                 b = self.matrix[i][j]
-                if b.player and b.player != player:
+                if b.player and b.player.first == player.first:
                     canEat = self.canEatByBlock(b)
                     if canEat:
+                        print 'get can eat: %s' % player, canEat
                         return canEat
         return 0
 

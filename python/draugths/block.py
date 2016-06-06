@@ -45,7 +45,7 @@ class Block:
         :param target:
         :return:
         """
-        print 'try move: ', self.row, self.col, target.row, target.col
+        print 'try move %s: ', self.player, self.row, self.col, target.row, target.col
         if self.player:
             row = 1
             if not self.player.first:  # player 1 or 2
