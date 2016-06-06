@@ -52,13 +52,13 @@ class Block:
                 row = -1
 
             if self.player.king:
-                if abs(target.row - self.row) == 1 and abs(target.col - self.col) == 1: # move
+                if abs(target.row - self.row) == 1 and abs(target.col - self.col) == 1:  # move
                     target.player = self.player
                     self.player = None
                     self.diselect()
                     target.checkKing()
                     return 1
-                if abs(target.row - self.row) == 2 and abs(target.col - self.col) == 2: # eat
+                if abs(target.row - self.row) == 2 and abs(target.col - self.col) == 2:  # eat
                     mid = getBlockBetween(self, target)
                     debugBoard()
                     # print 'size 2'

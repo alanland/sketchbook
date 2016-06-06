@@ -8,9 +8,9 @@ class CheckersBoard:
         self.size = size
         self.p1 = p1
         self.p2 = p2
-        self.paddingLeft = 200
-        self.paddingRight = 40
-        self.paddingTop = 100
+        self.paddingLeft = 0
+        self.paddingRight = 0
+        self.paddingTop = 0
         self.needChange = 0
         self.x1 = self.paddingLeft
         self.y1 = self.paddingTop
@@ -70,6 +70,7 @@ class CheckersBoard:
             return None
 
     def mousePressed(self):
+        self.doCheckWin()
         debugBoard()
         if not self.mouseInBoard():
             print 'out'
@@ -110,7 +111,6 @@ class CheckersBoard:
     def display(self):
         with pushMatrix():
             translate(self.x1, self.y1)
-            text(self.player.name, -100, 20)
             for i in range(self.size):
                 for j in range(self.size):
                     self.matrix[i][j].display()
@@ -156,7 +156,11 @@ class CheckersBoard:
     def checkWin(self):
         res = self.doCheckWin()
         if res[0]:
-            image(res[1].img2, 0, 0, 200, 200)
+            with pushMatrix():
+                translate(self.x1, self.y1)
+                imageMode(CENTER)
+                image(res[1].img1, self.blockSize * self.size / 2, self.blockSize * self.size / 2, 200, 200)
+                noLoop()
 
     def doCheckWin(self):
         count1 = 0
@@ -169,8 +173,9 @@ class CheckersBoard:
                         count1 += 1
                     else:
                         count2 += 1
+        print 'win res %s' % count1, count2
         if count1 == 0:
-            return True, self.p1
+            return 1, self.p2
         if count2 == 0:
-            return True, self.p2
-        return False,
+            return 1, self.p1
+        return 0,

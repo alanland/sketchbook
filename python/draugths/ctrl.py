@@ -32,7 +32,8 @@ def getBlockBetween(b1, b2):
 def debugBoard():
     pass
 
-def debugBoard1():
+
+def pirntBoard():
     global game
     print random(1)
     m = game.board.matrix
