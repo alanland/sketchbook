@@ -159,7 +159,7 @@ class CheckersBoard:
             with pushMatrix():
                 translate(self.x1, self.y1)
                 imageMode(CENTER)
-                image(res[1].img1, self.blockSize * self.size / 2, self.blockSize * self.size / 2, 200, 200)
+                image(res[1].img1, self.blockSize * self.size / 2, self.blockSize * self.size / 2, 300, 300)
                 noLoop()
 
     def doCheckWin(self):
