@@ -66,7 +66,7 @@ class Block:
                     # print 'mid : ', mid
                     # print 'tgt : ', target
                     if mid.player and mid.player.first != self.player.first:  # can eat
-                        print 'can eat'
+                        # print 'can eat'
                         mid.player = None
                         target.player = self.player
                         self.player = None
@@ -76,9 +76,9 @@ class Block:
                         return 2
                 pass
             else:
-                print 'not king'
+                # print 'not king'
                 if target.row == self.row + row and abs(target.col - self.col) == 1:  # move
-                    print 'size 1'
+                    # print 'size 1'
                     target.player = self.player
                     self.player = None
                     self.diselect()
@@ -92,13 +92,12 @@ class Block:
                     # print 'mid : ', mid
                     # print 'tgt : ', target
                     if mid.player and mid.player.first != self.player.first:  # can eat
-                        print 'can eat'
+                        # print 'can eat'
                         mid.player = None
                         target.player = self.player
                         self.player = None
                         self.diselect()
                         target.checkKing()
-                        # todo continus eat
                         getGame().board.checkWin()
                         return 2
         return 0
