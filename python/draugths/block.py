@@ -61,11 +61,10 @@ class Block:
                 if abs(target.row - self.row) == 2 and abs(target.col - self.col) == 2: # eat
                     mid = getBlockBetween(self, target)
                     debugBoard()
-                    print 'size 2'
-                    print 'self: ', self
-                    print 'mid : ', mid
-                    print 'tgt : ', target
-                    print mid.player.first
+                    # print 'size 2'
+                    # print 'self: ', self
+                    # print 'mid : ', mid
+                    # print 'tgt : ', target
                     if mid.player and mid.player.first != self.player.first:  # can eat
                         print 'can eat'
                         mid.player = None
@@ -88,11 +87,10 @@ class Block:
                 if target.row == self.row + row * 2 and abs(target.col - self.col) == 2:  # eat
                     mid = getBlockBetween(self, target)
                     debugBoard()
-                    print 'size 2'
-                    print 'self: ', self
-                    print 'mid : ', mid
-                    print 'tgt : ', target
-                    print mid.player.first
+                    # print 'size 2'
+                    # print 'self: ', self
+                    # print 'mid : ', mid
+                    # print 'tgt : ', target
                     if mid.player and mid.player.first != self.player.first:  # can eat
                         print 'can eat'
                         mid.player = None
@@ -101,6 +99,7 @@ class Block:
                         self.diselect()
                         target.checkKing()
                         # todo continus eat
+                        getGame().board.checkWin()
                         return 2
         return 0
 

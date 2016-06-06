@@ -11,6 +11,7 @@ class CheckersBoard:
         self.paddingLeft = 200
         self.paddingRight = 40
         self.paddingTop = 100
+        self.needChange = 0
         self.x1 = self.paddingLeft
         self.y1 = self.paddingTop
         self.blockSize = int(
@@ -52,6 +53,11 @@ class CheckersBoard:
             self.player = self.p2
         else:
             self.player = self.p1
+        self.needChange = 0
+        self.checkCanEat()
+        if self.needChange:
+            self.needChange = 0
+            self.changePlayer()
 
     def mouseInBoard(self):
         return mouseX > self.x1 and mouseX < self.x2 and mouseY > self.y1 and mouseY < self.y2
@@ -92,6 +98,7 @@ class CheckersBoard:
                     # return
                 elif res == 2:
                     self.selected = None
+                    self.checkCanEat()
                     self.changePlayer()
 
         elif target.player:  # select
@@ -102,9 +109,66 @@ class CheckersBoard:
     def display(self):
         with pushMatrix():
             translate(self.x1, self.y1)
-            text(self.player.name,-100, 20)
+            text(self.player.name, -100, 20)
             for i in range(self.size):
                 for j in range(self.size):
                     self.matrix[i][j].display()
 
+    def checkCanEat(self):
+        canEat = self.canEatByPlayer(self.player)
+        if canEat:
+            print 'current: %s ' % self.player
+            self.needChange = 1
+            res = canEat[0].movePlayerTo(canEat[2])
+            print 'eat result: %s' % res
+            if res == 2:
+                return self.checkCanEat()
+        return 0
 
+    def canEatByPlayer(self, player):
+        for i in range(self.size):
+            for j in range(self.size):
+                b = self.matrix[i][j]
+                if b.player and b.player != player:
+                    canEat = self.canEatByBlock(b)
+                    if canEat:
+                        return canEat
+        return 0
+
+    def canEatByBlock(self, block):
+        forward = [(1, 1), (1, -1)]
+        if block.player and not block.player.first:
+            forward = [(-1, 1), (-1, -1)]
+        if block.player.king:
+            forward = [(1, 1), (1, -1), (-1, 1), (-1, -1)]
+        r = block.row
+        c = block.col
+        for s in forward:
+            if (r + s[0] * 2) in range(0, self.size) and (c + s[1] * 2) in range(0, self.size):
+                target = self.matrix[r + s[0] * 2][c + s[1] * 2]
+                mid = self.matrix[r + s[0]][c + s[1]]
+                if (target and not target.player) and mid and mid.player and mid.player.first != block.player.first:
+                    return (block, mid, target)
+        return 0
+
+    def checkWin(self):
+        res = self.doCheckWin()
+        if res[0]:
+            image(res[1].img2, 0, 0, 200, 200)
+
+    def doCheckWin(self):
+        count1 = 0
+        count2 = 0
+        for i in range(self.size):
+            for j in range(self.size):
+                b = self.matrix[i][j]
+                if b.player:
+                    if b.player.first:
+                        count1 += 1
+                    else:
+                        count2 += 1
+        if count1 == 0:
+            return True, self.p1
+        if count2 == 0:
+            return True, self.p2
+        return False,
