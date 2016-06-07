@@ -52,7 +52,7 @@ float t=0;
 
 //------------------------ Runtime properties ----------------------------------
 // Save each frame
-boolean SAVEVIDEO = false;
+boolean SAVEVIDEO = true;
 boolean SAVEFRAME = false;
 boolean APPLICATION = false;
 
@@ -66,12 +66,13 @@ int DEFAULTAPPLICHEIGHT = 600;
 //------------------------------------------------------------------------------
 
 // The text to be written
-String STRNG = "喵";
+String STRNG = "碎觉...";
 
 // The font to be used
 //String FONT = "LidoSTF.ttf";
-String FONT = "darkcrystaloutline.ttf";
-//String FONT = "msyh.ttf";
+//String FONT = "darkcrystaloutline.ttf";
+//String FONT = "GenAR102.ttf";
+String FONT = "msyh.ttf";
 
 // The inertie of the particles
 float INERTIE[] = {

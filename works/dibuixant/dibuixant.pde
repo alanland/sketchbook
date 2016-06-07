@@ -100,18 +100,18 @@ int VELOCIDAD = 128;
 
 String newString = "";
 
-void setup(){
+void setup() {
   RG.init(this);
   int w = DEFAULTAPPLICWIDTH, h = DEFAULTAPPLICHEIGHT;
   String r = DEFAULTAPPLICRENDERER;
-  
-  if(!APPLICATION){
+
+  if (!APPLICATION) {
     // Specify the widtha and height at runtime
     w = int(param("width"));
     h = int(param("height"));
     r = (String)param("renderer");
-  
- 
+
+
     // (String) will return null if param("renderer") doesn't exist
     if (r != OPENGL && r != P3D && r != JAVA2D && r != P2D) {
       r = DEFAULTAPPLETRENDERER;
@@ -125,79 +125,79 @@ void setup(){
       h = DEFAULTAPPLETHEIGHT;
     }
   }
-  
-  size(w,h,r);
+
+  size(w, h, r);
   frameRate(25);
-  try{
+  try {
     smooth();
   }
-  catch(Exception e){
+  catch(Exception e) {
   }
 
   background(255);
 
-  f = new RFont(FONT,372,RFont.CENTER);
-  
+  f = new RFont(FONT, 372, RFont.CENTER);
+
   initialize();
 }
 
-void draw(){
+void draw() {
   pushMatrix();
-    translate(width/2, height/2);
+  translate(width/2, height/2);
 
-  for(int i=0;i<VELOCIDAD;i++){
+  for (int i=0; i<VELOCIDAD; i++) {
     particula.update(grupo);
     particula.draw(g);
   }
   popMatrix();
 
-  if(SAVEVIDEO) saveFrame(STRNG+"video-####.tga");
+  if (SAVEVIDEO) saveFrame(STRNG+"video-####.tga");
 }
 
-void initialize(){
+void initialize() {
   background(255);
-  
+
   toldist = (width/80F) * DRWERRCOEFF * (10F/(STRNG.length()+1));
-  maxvel = (width/190F) * constrain(INKERRCOEFF,0.01,INKERRCOEFF) * (10F/(STRNG.length()+1));
-  maxalph = 255 * constrain(INKCOEFF,0,1);
-  
+  maxvel = (width/190F) * constrain(INKERRCOEFF, 0.01, INKERRCOEFF) * (10F/(STRNG.length()+1));
+  maxalph = 255 * constrain(INKCOEFF, 0, 1);
+
   grupo = f.toGroup(STRNG);
 
-  RCommand.setSegmentStep(1-constrain(PRECCOEFF,0,0.99));
+  RCommand.setSegmentStep(1-constrain(PRECCOEFF, 0, 0.99));
   RCommand.setSegmentator(RCommand.UNIFORMSTEP);
 
   grupo = grupo.toPolygonGroup();
   grupo.centerIn(g, MARGIN, 1, 1);
-  
-  particula = new Particle(g,0);
+
+  particula = new Particle(g, 0);
 }
 
-void mouseDragged(){
-  float distToMouse = dist(particula.pos.x,particula.pos.y,mouseX-width/2,mouseY-height/2)*0.3;
-  distToMouse = constrain(distToMouse,0.001,distToMouse);
+void mouseDragged() {
+  float distToMouse = dist(particula.pos.x, particula.pos.y, mouseX-width/2, mouseY-height/2)*0.3;
+  distToMouse = constrain(distToMouse, 0.001, distToMouse);
   RPoint p = new RPoint(particula.pos);
-  p.add(new RPoint((mouseX-pmouseX)*random(0,0.5)/distToMouse,(mouseY-pmouseY)*random(0,0.5)/distToMouse));
+  p.add(new RPoint((mouseX-pmouseX)*random(0, 0.5)/distToMouse, (mouseY-pmouseY)*random(0, 0.5)/distToMouse));
   particula.setPos(p);
-  particula.vel.add(new RPoint((mouseX-pmouseX)*random(0,0.5)/distToMouse,(mouseY-pmouseY)*random(0,0.5)/distToMouse));
+  particula.vel.add(new RPoint((mouseX-pmouseX)*random(0, 0.5)/distToMouse, (mouseY-pmouseY)*random(0, 0.5)/distToMouse));
 }
 
-void keyReleased(){
+void keyReleased() {
   //exit();
   //saveFrame(STRNG+"-###.tga");
-  if(keyCode==ENTER){
-    STRNG = newString; 
+  if (keyCode==ENTER) {
+    STRNG = newString;
     newString = "";
     initialize();
-  }else if(keyCode==BACKSPACE){
-    if(newString.length() !=0 ){
-      newString = newString.substring(0,newString.length()-1);
+  } else if (keyCode==BACKSPACE) {
+    if (newString.length() !=0 ) {
+      newString = newString.substring(0, newString.length()-1);
     }
-  }else if(keyCode!=SHIFT){
+  } else if (keyCode!=SHIFT) {
     newString += key;
   }
 }
 
-public class Particle{
+public class Particle {
   // Velocity
   RPoint vel;
 
@@ -213,52 +213,51 @@ public class Particle{
   int id;
 
   // Constructor
-  public Particle(PGraphics gfx, int ident){
-    pos = new RPoint(random(-gfx.width/2,gfx.width/2), random(-gfx.height/2,gfx.height/2));
+  public Particle(PGraphics gfx, int ident) {
+    pos = new RPoint(random(-gfx.width/2, gfx.width/2), random(-gfx.height/2, gfx.height/2));
     lastpos = new RPoint(pos);
     vel = new RPoint(0, 0);
 
     colorMode(HSB);
-    sz = random(2,3);
+    sz = random(2, 3);
 
     id = ident;
   }
 
   // Updater of position, velocity and colour depending on a RGroup
-  public void update(RGroup grp){
+  public void update(RGroup grp) {
     lastpos = new RPoint(pos);
     pos.add(vel);
     RPoint[] ps = grp.getPoints();
-    if(ps != null){
-      float distancia = dist(pos.x,pos.y,ps[id].x,ps[id].y);
-      if(distancia <= toldist){
+    if (ps != null) {
+      float distancia = dist(pos.x, pos.y, ps[id].x, ps[id].y);
+      if (distancia <= toldist) {
         id = (id + 1) % ps.length;
-        if(SAVEFRAME && id==0) saveFrame(STRNG+"frame-####.tga");
+        if (SAVEFRAME && id==0) saveFrame(STRNG+"frame-####.tga");
       }
 
       RPoint distPoint = new RPoint(ps[id]);
       distPoint.sub(pos);
 
-      distPoint.scale(random(MINNERVE,MAXNERVE));
-      vel.scale(random(MININERTIA,MAXINERTIA));
+      distPoint.scale(random(MINNERVE, MAXNERVE));
+      vel.scale(random(MININERTIA, MAXINERTIA));
       vel.add(distPoint);
 
       // Alpha and saturation in function of the velocity of the drawing
-      float velnorm = constrain(vel.norm(),0,maxvel);
+      float velnorm = constrain(vel.norm(), 0, maxvel);
       float sat = abs(maxvel - velnorm)/maxvel*maxalph;
-      col = color(0,0,1,sat);
+      col = color(0, 0, 1, sat);
     }
   }
 
-  public void setPos(RPoint newpos){
+  public void setPos(RPoint newpos) {
     lastpos = new RPoint(pos);
     pos = newpos;
   }
 
   // Drawing the particle
-  public void draw(PGraphics gfx){
+  public void draw(PGraphics gfx) {
     stroke(col);
-    line(lastpos.x,lastpos.y,pos.x, pos.y);
+    line(lastpos.x, lastpos.y, pos.x, pos.y);
   }
 }
-

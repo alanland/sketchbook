@@ -45,7 +45,6 @@ class Block:
         :param target:
         :return:
         """
-        print 'try move %s: ', self.player, self.row, self.col, target.row, target.col
         if self.player:
             row = 1
             if not self.player.first:  # player 1 or 2
@@ -61,24 +60,16 @@ class Block:
                 if abs(target.row - self.row) == 2 and abs(target.col - self.col) == 2:  # eat
                     mid = getBlockBetween(self, target)
                     debugBoard()
-                    # print 'size 2'
-                    # print 'self: ', self
-                    # print 'mid : ', mid
-                    # print 'tgt : ', target
                     if mid.player and mid.player.first != self.player.first:  # can eat
-                        # print 'can eat'
                         mid.player = None
                         target.player = self.player
                         self.player = None
                         self.diselect()
                         target.checkKing()
-                        # todo continus eat
                         return 2
                 pass
             else:
-                # print 'not king'
                 if target.row == self.row + row and abs(target.col - self.col) == 1:  # move
-                    # print 'size 1'
                     target.player = self.player
                     self.player = None
                     self.diselect()
@@ -87,12 +78,7 @@ class Block:
                 if target.row == self.row + row * 2 and abs(target.col - self.col) == 2:  # eat
                     mid = getBlockBetween(self, target)
                     debugBoard()
-                    # print 'size 2'
-                    # print 'self: ', self
-                    # print 'mid : ', mid
-                    # print 'tgt : ', target
                     if mid.player and mid.player.first != self.player.first:  # can eat
-                        # print 'can eat'
                         mid.player = None
                         target.player = self.player
                         self.player = None

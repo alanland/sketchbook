@@ -35,21 +35,16 @@ class CheckersBoard:
                 player = None
                 if row in [0, 1, 2]:
                     player = p1.clone()
-                    # print 1,
                 elif row in [5, 6, 7]:
                     player = p2.clone()
-                    # print 1,
                 else:
                     player = None
-                    # print 0,
 
                 self.matrix[row][col] = Block(row, col, self.status, self.blockSize, player)
                 changeStatus()
-            # print ''
             changeStatus()
 
     def changePlayer(self):
-        print '%s >>>>>>> ' % self.player
         if self.player == self.p1:
             self.player = self.p2
         else:
@@ -73,14 +68,11 @@ class CheckersBoard:
         self.doCheckWin()
         debugBoard()
         if not self.mouseInBoard():
-            print 'out'
             return
         target = self.getMouseBlock()
         if not target or not target.c:
-            print 'not block'
             return
         if target.player and not self.player == target.player:
-            print 'wrong player'
             return
 
         if self.selected:  # change select, move , each
@@ -104,7 +96,6 @@ class CheckersBoard:
                     self.changePlayer()
 
         elif target.player:  # select
-            # print 'choose'
             self.selected = target
             target.select()  #
 
@@ -118,10 +109,8 @@ class CheckersBoard:
     def checkCanEat(self):
         canEat = self.canEatByPlayer(self.player)
         if canEat:
-            # print 'current: %s ' % self.player
             self.needChange = 1
             res = canEat[0].movePlayerTo(canEat[2])
-            print 'eat result: %s' % res
             if res == 2:
                 return self.checkCanEat()
         return 0
@@ -133,7 +122,6 @@ class CheckersBoard:
                 if b.player and b.player.first == player.first:
                     canEat = self.canEatByBlock(b)
                     if canEat:
-                        print 'get can eat: %s' % player, canEat
                         return canEat
         return 0
 
@@ -173,7 +161,6 @@ class CheckersBoard:
                         count1 += 1
                     else:
                         count2 += 1
-        print 'win res %s' % count1, count2
         if count1 == 0:
             return 1, self.p2
         if count2 == 0:
