@@ -34,8 +34,8 @@
  
  */
 
-import processing.opengl.*;
-import geomerative.*;
+
+import geomerative.*
 
 RGroup grupo;
 Particle particula;
