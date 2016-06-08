@@ -17,19 +17,28 @@ public class HelloPolygonize extends BaseArt {
     }
 
     RShape shp;
+    RShape polyshp;
 
     @Override
     public void setup() {
         super.setup();
-        shp = RG.loadShape("tiger.svg");
-        shp.centerIn(g);
+        shp = RG.loadShape("lion.svg");
+        shp.centerIn(g, 100);
     }
 
     @Override
     public void draw() {
         background(255);
+
+        float pointSeparation = map(constrain(mouseX, 100, width - 100), 100, width - 100, 5, 100);
+
+        RG.setPolygonizer(RG.UNIFORMLENGTH);
+        RG.setPolygonizerLength(pointSeparation);
+
+        polyshp = RG.polygonize(shp);
         translate(mouseX, mouseY);
-        shp.draw();
+        polyshp.draw();
+//        RG.shape(shp, 200, 200);
     }
 }
 
