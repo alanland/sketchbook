@@ -21,7 +21,7 @@ public class BaseArt extends PApplet {
 
     @Override
     public void setup() {
-        size(600, 400);
+        size(1000, 800, OPENGL);
         frameRate(20);
         RG.init(this);
         background(255);
