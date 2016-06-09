@@ -51,7 +51,7 @@ public class Particle {
     colour = color(0, 0, 1, 200);
     if (distance > 20) colour = color(0, 0, 1, 0);
     stroke(colour);
+    strokeWeight(2);
     line(lastpos.x, lastpos.y, pos.x, pos.y);
   }
 }
-
