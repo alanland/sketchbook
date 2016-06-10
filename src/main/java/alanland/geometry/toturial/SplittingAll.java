@@ -11,8 +11,8 @@ import java.awt.event.MouseEvent;
  * @author 王成义
  * @version 6/9/16
  */
-public class SplittingShapes extends GeometryBaseArt {
-    private static String CLASS_NAME = SplittingShapes.class.getName();
+public class SplittingAll extends GeometryBaseArt {
+    private static String CLASS_NAME = SplittingAll.class.getName();
 
     public static void main(String[] args) {
         PApplet.main(new String[]{CLASS_NAME});
@@ -20,7 +20,6 @@ public class SplittingShapes extends GeometryBaseArt {
 
     RShape shp;
     int index;
-    boolean ignoreStyles = false;
 
     @Override
     public void setup() {
@@ -38,7 +37,7 @@ public class SplittingShapes extends GeometryBaseArt {
         noFill();
         stroke(255);
         float splitPos = map(mouseX, 0, width, 0, 1);
-        RShape[] splitShps = shp.split(splitPos);
+        RShape[] splitShps = shp.splitPaths(splitPos);
         splitShps[index].draw();
     }
 
@@ -46,8 +45,6 @@ public class SplittingShapes extends GeometryBaseArt {
     public void mousePressed(MouseEvent e) {
         super.mousePressed(e);
         index = (index + 1) % 2;
-        ignoreStyles = !ignoreStyles;
-        RG.ignoreStyles(ignoreStyles);
     }
 }
 

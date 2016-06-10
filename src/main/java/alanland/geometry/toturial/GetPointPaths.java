@@ -1,6 +1,6 @@
 package alanland.geometry.toturial;
 
-import alanland.BaseArt;
+import alanland.geometry.GeometryBaseArt;
 import geomerative.RG;
 import geomerative.RPoint;
 import geomerative.RShape;
@@ -10,7 +10,7 @@ import processing.core.PApplet;
  * @author 王成义
  * @version 6/9/16
  */
-public class GetPointPaths extends BaseArt {
+public class GetPointPaths extends GeometryBaseArt {
     private static String CLASS_NAME = GetPointPaths.class.getName();
 
     public static void main(String[] args) {

@@ -1,6 +1,5 @@
 package alanland;
 
-import geomerative.RG;
 import processing.core.PApplet;
 
 import java.awt.event.KeyEvent;
@@ -17,13 +16,10 @@ public class BaseArt extends PApplet {
         PApplet.main(new String[]{CLASS_NAME});
     }
 
-    public static String FONT = "胡敬礼毛笔行书简.ttf";
-
     @Override
     public void setup() {
         size(1000, 800, OPENGL);
         frameRate(20);
-        RG.init(this);
         background(255);
         fill(255, 102, 0);
         stroke(0);

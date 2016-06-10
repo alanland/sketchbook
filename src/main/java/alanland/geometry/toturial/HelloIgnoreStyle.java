@@ -1,6 +1,6 @@
 package alanland.geometry.toturial;
 
-import alanland.BaseArt;
+import alanland.geometry.GeometryBaseArt;
 import geomerative.RG;
 import geomerative.RShape;
 import processing.core.PApplet;
@@ -9,7 +9,7 @@ import processing.core.PApplet;
  * @author 王成义
  * @version 6/9/16
  */
-public class HelloIgnoreStyle extends BaseArt {
+public class HelloIgnoreStyle extends GeometryBaseArt {
     private static String CLASS_NAME = HelloIgnoreStyle.class.getName();
 
     public static void main(String[] args) {

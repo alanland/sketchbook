@@ -1,6 +1,6 @@
 package alanland.geometry.toturial;
 
-import alanland.BaseArt;
+import alanland.geometry.GeometryBaseArt;
 import geomerative.RCommand;
 import processing.core.PApplet;
 
@@ -8,7 +8,7 @@ import processing.core.PApplet;
  * @author 王成义
  * @version 6/9/16
  */
-public class Splitting extends BaseArt {
+public class Splitting extends GeometryBaseArt {
     private static String CLASS_NAME = Splitting.class.getName();
 
     public static void main(String[] args) {

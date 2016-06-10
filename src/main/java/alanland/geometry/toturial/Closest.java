@@ -1,6 +1,6 @@
 package alanland.geometry.toturial;
 
-import alanland.BaseArt;
+import alanland.geometry.GeometryBaseArt;
 import geomerative.RClosest;
 import geomerative.RG;
 import geomerative.RPoint;
@@ -11,7 +11,7 @@ import processing.core.PApplet;
  * @author 王成义
  * @version 6/9/16
  */
-public class Closest extends BaseArt {
+public class Closest extends GeometryBaseArt {
     private static String CLASS_NAME = Closest.class.getName();
 
     public static void main(String[] args) {
